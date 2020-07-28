@@ -1,0 +1,8 @@
+# ide
+/.idea
+
+# environment
+.env
+
+# libraries
+/node_modules
