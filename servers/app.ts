@@ -1,25 +1,31 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as dotenv from 'dotenv';
+import * as process from 'process';
+import * as console from 'console';
 
 dotenv.config();
 
-import mongoClient from './mongodb';
+import client from './mongodb';
 import routes from '../src/routes';
 
 const app = express();
-
 app.use(bodyParser.urlencoded({ extended: true }));
 
-mongoClient.connect((err, database) => {
-    if (err) {
-        return console.log(err);
+async function run() {
+    try {
+        await client.connect();
+        const database = client.db('trello');
+
+        routes(app, database);
+        app.listen(process.env.APP_PORT, () => {
+            console.log(`Running on http://${process.env.APP_HOST}:${process.env.APP_PORT}`);
+        });
+    } catch (e) {
+        console.log(e);
+    } finally {
+        await client.close;
     }
+}
 
-    console.log('We are live on ' + process.env.DB_PORT);
-});
-
-routes(app, {});
-app.listen(process.env.APP_PORT);
-
-console.log(`Running on http://${process.env.APP_HOST}:${process.env.APP_PORT}`);
+run();

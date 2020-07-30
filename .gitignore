@@ -6,3 +6,6 @@
 
 # libraries
 /node_modules
+
+# docker
+/.data
