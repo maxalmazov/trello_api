@@ -4,4 +4,5 @@ export default {
   dbPort: process.env.DB_PORT || 27017,
   dbUser: process.env.MONGO_INITDB_ROOT_USERNAME || 'root',
   dbPass: process.env.MONGO_INITDB_ROOT_PASSWORD || 'r00t',
+  dbName: process.env.MONGO_INITDB_NAME || 'trello',
 };

@@ -13,19 +13,19 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 
 async function run() {
-    try {
-        await client.connect();
-        const database = client.db('trello');
+  try {
+    await client.connect();
+    const database = client.db(process.env.MONGO_INIT_DB_NAME);
 
-        routes(app, database);
-        app.listen(process.env.APP_PORT, () => {
-            console.log(`Running on http://${process.env.APP_HOST}:${process.env.APP_PORT}`);
-        });
-    } catch (e) {
-        console.log(e);
-    } finally {
-        await client.close;
-    }
+    routes(app, database);
+    app.listen(process.env.APP_PORT, () => {
+      console.log(`Running on http://${process.env.APP_HOST}:${process.env.APP_PORT}`);
+    });
+  } catch (e) {
+    console.log(e);
+  } finally {
+    await client.close;
+  }
 }
 
 run();

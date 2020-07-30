@@ -17,6 +17,7 @@
     "pretty": true,
   },
   "include": [
-    "src"
+    "src",
+    "servers"
   ]
 }
