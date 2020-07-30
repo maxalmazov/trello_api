@@ -1,0 +1,14 @@
+# ide
+/.idea
+
+# environment
+.env
+
+# libraries
+/node_modules
+
+# docker
+/.data
+
+# system
+yarn-error.log
