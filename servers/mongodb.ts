@@ -1,11 +1,14 @@
-import { MongoClient } from 'mongodb';
+import * as mongoose from 'mongoose';
 import config from '../src/config/config';
 
-const user = encodeURIComponent(config.dbUser);
-const pass = encodeURIComponent(config.dbPass);
-
-const client = new MongoClient(`${user}:${pass}@${config.dbHost}:${config.dbPort}`, {
-  useUnifiedTopology: true
-});
+const client = () => mongoose.connect(
+  `${config.dbHost}:${config.dbPort}/${config.dbName}`,
+  {
+    user: config.dbUser,
+    pass: config.dbPass,
+    authSource: 'admin',
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
 
 export default client;
