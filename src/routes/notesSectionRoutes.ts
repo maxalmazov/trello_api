@@ -1,6 +1,7 @@
 export default {
-  get: '/notesSections',
+  getAll: '/notesSections',
+  getOneById: '/notesSections/:id',
   post: '/notesSections',
-  put: '/notesSections',
-  delete: '/notesSections'
+  put: '/notesSections/:id',
+  delete: '/notesSections/:id'
 };
