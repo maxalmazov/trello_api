@@ -1,8 +1,8 @@
 import * as core from 'express-serve-static-core';
 import routes from '../routes/';
-import NotesSection from '../models/notesSection'
+import NotesSection from '../models/NotesSection'
 
-const notesSectionController = (app: core.Express): void => {
+const NotesSectionController = (app: core.Express): void => {
   app.get(routes.notesSection.get, async (req, res) => {
     const notes = await NotesSection.find().exec();
     res.send(notes);
@@ -23,4 +23,4 @@ const notesSectionController = (app: core.Express): void => {
   });
 };
 
-export default notesSectionController;
+export default NotesSectionController;

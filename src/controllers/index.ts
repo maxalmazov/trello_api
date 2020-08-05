@@ -1,14 +1,14 @@
 import * as core from 'express-serve-static-core';
-import noteController from './noteController';
-import notesSectionController from './notesSectionController';
+import NoteController from './NoteController';
+import NotesSectionController from './NotesSectionController';
 
-const controllers = (app: core.Express): void => {
-  noteController(app);
-  notesSectionController(app);
+const Controllers = (app: core.Express): void => {
+  NoteController(app);
+  NotesSectionController(app);
 
   app.get('/', (req, res) => {
     res.send("yep, it's working");
   });
 };
 
-export default controllers;
+export default Controllers;

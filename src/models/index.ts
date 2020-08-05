@@ -1,7 +1,7 @@
-import note from './note';
-import notesSection from './notesSection';
+import Note from './Note';
+import NotesSection from './NotesSection';
 
 export default {
-  note,
-  notesSection,
+  Note,
+  NotesSection,
 }

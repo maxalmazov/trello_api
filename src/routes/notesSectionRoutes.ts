@@ -1,6 +1,6 @@
 export default {
-  get: '/notesSection',
-  post: '/notesSection',
-  put: '/notesSection',
-  delete: '/notesSection'
+  get: '/notesSections',
+  post: '/notesSections',
+  put: '/notesSections',
+  delete: '/notesSections'
 };

@@ -6,7 +6,7 @@ import * as console from 'console';
 
 dotenv.config();
 
-import controllers from '../src/controllers';
+import Controllers from '../src/controllers';
 import connectDatabase from './mongodb';
 
 const app = express();
@@ -15,7 +15,7 @@ app.use(express.json());
 
 async function run() {
   try {
-    controllers(app);
+    Controllers(app);
     await connectDatabase();
 
     app.listen(process.env.APP_PORT, () => {

@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { NotesSectionModelName } from './notesSection';
+import { NotesSectionModelName } from './NotesSection';
 
 export const NoteModelName = 'Note';
 
