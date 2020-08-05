@@ -6,25 +6,25 @@ import * as console from 'console';
 
 dotenv.config();
 
-import client from './mongodb';
-import routes from '../src/routes';
+import Controllers from '../src/controllers';
+import connectDatabase from './mongodb';
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 
 async function run() {
   try {
-    await client.connect();
-    const database = client.db(process.env.MONGO_INIT_DB_NAME);
+    Controllers(app);
+    await connectDatabase();
 
-    routes(app, database);
     app.listen(process.env.APP_PORT, () => {
       console.log(`Running on http://${process.env.APP_HOST}:${process.env.APP_PORT}`);
     });
   } catch (e) {
     console.log(e);
   } finally {
-    await client.close;
+    // await client.close;
   }
 }
 
