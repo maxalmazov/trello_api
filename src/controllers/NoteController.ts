@@ -9,9 +9,9 @@ import { HttpStatusCode } from '../lib/enum/HttpStatusCode';
 
 const NoteController = (app: core.Express): void => {
   app.get(routes.note.getAll, async (request: Request, response: Response) => {
-    const noteSections = await Note.find().exec();
+    const notes = await Note.find().exec();
 
-    response.send(noteSections);
+    response.send(notes);
   });
 
   app.get(routes.note.getOneById, async (request: Request, response: Response) => {
