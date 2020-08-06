@@ -3,17 +3,34 @@ import { NotesSectionModelName } from './NotesSection';
 
 export const NoteModelName = 'Note';
 
+const NoteColors = [
+  '#ffffff',
+  '#ffbb37',
+  '#ff768f',
+  '#4d88ff',
+  '#43dc9c',
+];
+
 const noteSchema = new Schema({
-  _id: Schema.Types.ObjectId,
   sectionId: {
     type: Schema.Types.ObjectId,
     ref: NotesSectionModelName,
+    required: [
+      true,
+      '\'sectionID\' is required'
+    ],
   },
   title: {
     type: String,
-    required: true,
+    required: [
+      true,
+      '\'title\' is required.'
+    ],
   },
-  description: String,
+  description: {
+    type: String,
+    default: '',
+  },
   dueTo: {
     type: Date,
     default: Date.now,
@@ -24,7 +41,11 @@ const noteSchema = new Schema({
   },
   color: {
     type: String,
-    default: '#ffffff'
+    default: '#ffffff',
+    enum: {
+      values: NoteColors,
+      message: `\'color\' can be only ${NoteColors.join(', ')}`,
+    },
   },
 });
 

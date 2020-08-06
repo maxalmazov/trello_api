@@ -93,7 +93,7 @@ const NotesSectionController = (app: core.Express): void => {
     }
   });
 
-  app.delete(routes.notesSection.put, async (request: Request, response: Response) => {
+  app.delete(routes.notesSection.delete, async (request: Request, response: Response) => {
     try {
       const notesSectionId = request.params.id;
 
