@@ -3,123 +3,77 @@ import routes from '../routes/';
 import NotesSection from '../models/NotesSection'
 import BadRequestError from '../lib/errors/BadRequestError';
 import NotFoundError from '../lib/errors/NotFoundError';
-import handleError from '../lib/ErrorHandler';
+import { asyncHandler } from '../lib/ErrorHandler';
 import { Request, Response } from 'express';
 import { HttpStatusCode } from '../lib/enum/HttpStatusCode';
 
 const NotesSectionController = (app: core.Express): void => {
-  app.get(routes.notesSection.getAll, async (request: Request, response: Response) => {
+  app.get(routes.notesSection.getAll, asyncHandler(async (request: Request, response: Response) => {
     const noteSections = await NotesSection.find().exec();
 
     response.send(noteSections);
-  });
+  }));
 
-  app.get(routes.notesSection.getOneById, async (request: Request, response: Response) => {
-    try {
-      const notesSectionId = request.params.id;
+  app.get(routes.notesSection.getOneById, asyncHandler(async (request: Request, response: Response) => {
+    const notesSectionId = request.params.id;
 
-      if (!notesSectionId) {
-        throw new BadRequestError('Param \'id\' is required.');
-      }
-
-      const notesSection = await NotesSection.findById(notesSectionId).exec();
-
-      if (null === notesSection) {
-        throw new NotFoundError(`NotesSection with id \'${notesSectionId}\' not found.`);
-      }
-
-      response.send(notesSection);
-    } catch (error) {
-      if (error instanceof BadRequestError) {
-        response.status(error.httpCode).send(handleError(error));
-      } else if (error instanceof NotFoundError) {
-        response.status(error.httpCode).send(handleError(error));
-      } else {
-        // TODO: create default error handling
-        console.log(error);
-        response.status(500).send('Server Error.');
-      }
+    if (!notesSectionId) {
+      throw new BadRequestError('Param \'id\' is required.');
     }
-  });
 
-  app.post(routes.notesSection.post, async (request, response) => {
-    try {
-      const newNotesSection = new NotesSection(request.body);
-      const errors = newNotesSection.validateSync();
+    const notesSection = await NotesSection.findById(notesSectionId).exec();
 
-      if (errors) {
-        throw new BadRequestError(errors.message)
-      }
-
-      const notesSection = await newNotesSection.save();
-
-      response.send(notesSection);
-    } catch (error) {
-      if (error instanceof BadRequestError) {
-        response.status(error.httpCode).send(handleError(error));
-      } else {
-        // TODO: create default error handling
-        console.log(error);
-        response.status(500).send('Server Error.');
-      }
+    if (null === notesSection) {
+      throw new NotFoundError(`NotesSection with id \'${notesSectionId}\' not found.`);
     }
-  });
 
-  app.put(routes.notesSection.put, async (request: Request, response: Response) => {
-    try {
-      const notesSectionId = request.params.id;
+    response.send(notesSection);
+  }));
 
-      if (!notesSectionId) {
-        throw new BadRequestError('Param \'id\' is required.');
-      }
+  app.post(routes.notesSection.post, asyncHandler(async (request, response) => {
+    const newNotesSection = new NotesSection(request.body);
+    const errors = newNotesSection.validateSync();
 
-      const result = await NotesSection.updateOne({_id: notesSectionId }, request.body).exec();
-
-      if (!result.n) {
-        throw new NotFoundError(`NotesSection with id \'${notesSectionId}\' not found.`);
-      }
-
-      response.status(HttpStatusCode.OK).send();
-    } catch (error) {
-      if (error instanceof BadRequestError) {
-        response.status(error.httpCode).send(handleError(error));
-      } else if (error instanceof NotFoundError) {
-        response.status(error.httpCode).send(handleError(error));
-      } else {
-        // TODO: create default error handling
-        console.log(error);
-        response.status(500).send('Server Error.');
-      }
+    if (errors) {
+      throw new BadRequestError(errors.message)
     }
-  });
 
-  app.delete(routes.notesSection.delete, async (request: Request, response: Response) => {
-    try {
-      const notesSectionId = request.params.id;
+    const notesSection = await newNotesSection.save();
 
-      if (!notesSectionId) {
-        throw new BadRequestError('Param \'id\' is required.');
-      }
+    response.send(notesSection);
+  }));
 
-      const result = await NotesSection.deleteOne({ _id: notesSectionId}).exec();
+  app.put(routes.notesSection.put, asyncHandler(async (request: Request, response: Response) => {
+    const notesSectionId = request.params.id;
 
-      if (!result.n) {
-        throw new NotFoundError(`NotesSection with id \'${notesSectionId}\' not found.`);
-      }
-
-      response.status(HttpStatusCode.OK).send();
-    } catch (error) {
-      if (error instanceof BadRequestError) {
-        response.status(error.httpCode).send(handleError(error));
-      } else if (error instanceof NotFoundError) {
-        response.status(error.httpCode).send(handleError(error));
-      } else {
-        // TODO: create default error handling
-        console.log(error);
-        response.status(500).send('Server Error.');
-      }
+    if (!notesSectionId) {
+      throw new BadRequestError('Param \'id\' is required.');
     }
-  });
+
+    const result = await NotesSection.updateOne({_id: notesSectionId }, request.body).exec();
+
+    if (!result.n) {
+      throw new NotFoundError(`NotesSection with id \'${notesSectionId}\' not found.`);
+    }
+
+    response.status(HttpStatusCode.OK).send();
+  }));
+
+  app.delete(routes.notesSection.delete, asyncHandler(async (request: Request, response: Response) => {
+    const notesSectionId = request.params.id;
+
+    if (!notesSectionId) {
+      throw new BadRequestError('Param \'id\' is required.');
+    }
+
+    const result = await NotesSection.deleteOne({ _id: notesSectionId}).exec();
+
+    if (!result.n) {
+      throw new NotFoundError(`NotesSection with id \'${notesSectionId}\' not found.`);
+    }
+
+    response.status(HttpStatusCode.OK).send();
+  }));
 };
 
 export default NotesSectionController;
