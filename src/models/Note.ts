@@ -3,29 +3,17 @@ import { NotesSectionModelName } from './NotesSection';
 
 export const NoteModelName = 'Note';
 
-const NoteColors = [
-  '#ffffff',
-  '#ffbb37',
-  '#ff768f',
-  '#4d88ff',
-  '#43dc9c',
-];
+const NoteColors = ['#ffffff', '#ffbb37', '#ff768f', '#4d88ff', '#43dc9c'];
 
 const noteSchema = new Schema({
   sectionId: {
     type: Schema.Types.ObjectId,
     ref: NotesSectionModelName,
-    required: [
-      true,
-      '\'sectionID\' is required'
-    ],
+    required: [true, "'sectionID' is required"],
   },
   title: {
     type: String,
-    required: [
-      true,
-      '\'title\' is required.'
-    ],
+    required: [true, "'title' is required."],
   },
   description: {
     type: String,

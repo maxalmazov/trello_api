@@ -3,5 +3,5 @@ import notesSection from './notesSectionRoutes';
 
 export default {
   note,
-  notesSection
-}
+  notesSection,
+};

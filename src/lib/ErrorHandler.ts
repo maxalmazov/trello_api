@@ -4,10 +4,10 @@ import ServerError from './errors/ServerError';
 import { HttpStatusCode } from './enum/HttpStatusCode';
 
 interface ErrorResponse {
-  success: 0|1,
-  error: string,
-  message: string,
-  httpCode: HttpStatusCode,
+  success: 0 | 1;
+  error: string;
+  message: string;
+  httpCode: HttpStatusCode;
 }
 
 export const asyncHandler = (action: (...args) => {}) => (...args) => {
@@ -21,7 +21,7 @@ export const ErrorHandler = (
   error: Error,
   request: Request,
   response: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const createErrorResponse = (error: BaseError): ErrorResponse => ({
     success: 0,
