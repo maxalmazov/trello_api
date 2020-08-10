@@ -13,10 +13,7 @@ const NotesSectionColors = [
 const notesSectionSchema = new Schema({
   title: {
     type: String,
-    required: [
-      true,
-      '\'title\' is required.'
-    ],
+    required: [true, "'title' is required."],
   },
   color: {
     type: String,
@@ -24,7 +21,7 @@ const notesSectionSchema = new Schema({
     enum: {
       values: NotesSectionColors,
       message: `\'color\' can be only ${NotesSectionColors.join(', ')}`,
-    }
+    },
   },
 });
 

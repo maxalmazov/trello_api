@@ -4,4 +4,4 @@ import NotesSection from './NotesSection';
 export default {
   Note,
   NotesSection,
-}
+};

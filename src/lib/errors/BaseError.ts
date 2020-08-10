@@ -1,14 +1,13 @@
 import { HttpStatusCode } from '../enum/HttpStatusCode';
 
-abstract class BaseError extends Error
-{
+abstract class BaseError extends Error {
   public readonly name;
   public readonly httpCode;
 
-  protected constructor (
-    message: string = 'Something went wrong. Please, try later.',
-    name: string = 'InternalServerError',
-    httpCode: HttpStatusCode = HttpStatusCode.INTERNAL_SERVER_ERROR
+  protected constructor(
+    message = 'Something went wrong. Please, try later.',
+    name = 'InternalServerError',
+    httpCode: HttpStatusCode = HttpStatusCode.INTERNAL_SERVER_ERROR,
   ) {
     super(message);
 
