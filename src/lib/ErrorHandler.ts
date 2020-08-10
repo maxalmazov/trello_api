@@ -17,35 +17,30 @@ export const asyncHandler = (action: (...args) => {}) => (...args) => {
   return Promise.resolve(actionReturn).catch(next);
 };
 
-const createErrorResponse = (error: BaseError): ErrorResponse => ({
-  success: 0,
-  error: error.name,
-  message: error.message,
-  httpCode: error.httpCode,
-});
-
-const sendErrorResponse = (errorResponse: ErrorResponse, response: Response) => {
-  response.status(errorResponse.httpCode).send(errorResponse);
-};
-
 export const ErrorHandler = (
   error: Error,
   request: Request,
   response: Response,
   next: NextFunction
 ) => {
+  const createErrorResponse = (error: BaseError): ErrorResponse => ({
+    success: 0,
+    error: error.name,
+    message: error.message,
+    httpCode: error.httpCode,
+  });
+
+  const sendErrorResponse = (errorResponse: ErrorResponse) => {
+    response.status(errorResponse.httpCode).send(errorResponse);
+  };
+
   if (error instanceof BaseError) {
-    sendErrorResponse(createErrorResponse(error), response);
+    sendErrorResponse(createErrorResponse(error));
   } else {
     // TODO: create logger to know what's happen
     const serverError = new ServerError();
-    sendErrorResponse(createErrorResponse(serverError), response);
+    sendErrorResponse(createErrorResponse(serverError));
   }
 };
-
-
-
-
-
 
 export default ErrorHandler;
