@@ -7,12 +7,13 @@ import NotFoundError from '../lib/errors/NotFoundError';
 import { Request, Response } from 'express';
 import { HttpStatusCode } from '../lib/enum/HttpStatusCode';
 import { UpdateWriteOpResult } from 'mongodb';
+import NoteRepository from '../repositories/NoteRepository';
 
 const NoteController = (app: core.Express): void => {
   app.get(
     routes.note.getAll,
     asyncHandler(async (request: Request, response: Response) => {
-      const notes = await Note.find().exec();
+      const notes = await NoteRepository.getAll();
 
       response.send(notes);
     }),
@@ -24,10 +25,10 @@ const NoteController = (app: core.Express): void => {
       const noteId = request.params.id;
 
       if (!noteId) {
-        throw new BadRequestError("Param 'id' is required.");
+        throw new BadRequestError('Param \'id\' is required.');
       }
 
-      const note = await Note.findById(noteId).exec();
+      const note = await NoteRepository.findById(noteId);
 
       if (null === note) {
         throw new NotFoundError(`Note with id '${noteId}' not found.`);
@@ -64,10 +65,10 @@ const NoteController = (app: core.Express): void => {
       }
 
       // TODO: handle CastError
-      const result: UpdateWriteOpResult['result'] = await Note.updateOne(
-        { _id: noteId },
+      const result: UpdateWriteOpResult['result'] = await NoteRepository.updateOneById(
+        noteId,
         request.body,
-      ).exec();
+      );
 
       if (!result.n) {
         throw new NotFoundError(`Note with id '${noteId}' not found.`);
@@ -86,7 +87,7 @@ const NoteController = (app: core.Express): void => {
         throw new BadRequestError("Param 'id' is required.");
       }
 
-      const result = await Note.deleteOne({ _id: noteId }).exec();
+      const result = await NoteRepository.deleteOneById(noteId);
 
       if (!result.n) {
         throw new NotFoundError(`Note with id '${noteId}' not found.`);
