@@ -32,7 +32,7 @@ const noteSchema = new Schema({
     default: '#ffffff',
     enum: {
       values: NoteColors,
-      message: `\'color\' can be only ${NoteColors.join(', ')}`,
+      message: `'color' can be only ${NoteColors.join(', ')}`,
     },
   },
 });

@@ -20,7 +20,7 @@ const notesSectionSchema = new Schema({
     default: '#dfe1e6',
     enum: {
       values: NotesSectionColors,
-      message: `\'color\' can be only ${NotesSectionColors.join(', ')}`,
+      message: `'color' can be only ${NotesSectionColors.join(', ')}`,
     },
   },
 });

@@ -6,6 +6,7 @@ import NotFoundError from '../lib/errors/NotFoundError';
 import { asyncHandler } from '../lib/ErrorHandler';
 import { Request, Response } from 'express';
 import { HttpStatusCode } from '../lib/enum/HttpStatusCode';
+import { UpdateWriteOpResult } from 'mongodb';
 
 const NotesSectionController = (app: core.Express): void => {
   app.get(
@@ -30,7 +31,7 @@ const NotesSectionController = (app: core.Express): void => {
 
       if (null === notesSection) {
         throw new NotFoundError(
-          `NotesSection with id \'${notesSectionId}\' not found.`,
+          `NotesSection with id '${notesSectionId}' not found.`,
         );
       }
 
@@ -40,7 +41,7 @@ const NotesSectionController = (app: core.Express): void => {
 
   app.post(
     routes.notesSection.post,
-    asyncHandler(async (request, response) => {
+    asyncHandler(async (request: Request, response: Response) => {
       const newNotesSection = new NotesSection(request.body);
       const errors = newNotesSection.validateSync();
 
@@ -63,14 +64,14 @@ const NotesSectionController = (app: core.Express): void => {
         throw new BadRequestError("Param 'id' is required.");
       }
 
-      const result = await NotesSection.updateOne(
+      const result: UpdateWriteOpResult['result'] = await NotesSection.updateOne(
         { _id: notesSectionId },
         request.body,
       ).exec();
 
       if (!result.n) {
         throw new NotFoundError(
-          `NotesSection with id \'${notesSectionId}\' not found.`,
+          `NotesSection with id '${notesSectionId}' not found.`,
         );
       }
 
@@ -93,7 +94,7 @@ const NotesSectionController = (app: core.Express): void => {
 
       if (!result.n) {
         throw new NotFoundError(
-          `NotesSection with id \'${notesSectionId}\' not found.`,
+          `NotesSection with id '${notesSectionId}' not found.`,
         );
       }
 

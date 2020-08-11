@@ -6,6 +6,7 @@ import BadRequestError from '../lib/errors/BadRequestError';
 import NotFoundError from '../lib/errors/NotFoundError';
 import { Request, Response } from 'express';
 import { HttpStatusCode } from '../lib/enum/HttpStatusCode';
+import { UpdateWriteOpResult } from 'mongodb';
 
 const NoteController = (app: core.Express): void => {
   app.get(
@@ -29,7 +30,7 @@ const NoteController = (app: core.Express): void => {
       const note = await Note.findById(noteId).exec();
 
       if (null === note) {
-        throw new NotFoundError(`Note with id \'${noteId}\' not found.`);
+        throw new NotFoundError(`Note with id '${noteId}' not found.`);
       }
 
       response.send(note);
@@ -63,10 +64,13 @@ const NoteController = (app: core.Express): void => {
       }
 
       // TODO: handle CastError
-      const result = await Note.updateOne({ _id: noteId }, request.body).exec();
+      const result: UpdateWriteOpResult['result'] = await Note.updateOne(
+        { _id: noteId },
+        request.body,
+      ).exec();
 
       if (!result.n) {
-        throw new NotFoundError(`Note with id \'${noteId}\' not found.`);
+        throw new NotFoundError(`Note with id '${noteId}' not found.`);
       }
 
       response.status(HttpStatusCode.OK).send();
@@ -85,7 +89,7 @@ const NoteController = (app: core.Express): void => {
       const result = await Note.deleteOne({ _id: noteId }).exec();
 
       if (!result.n) {
-        throw new NotFoundError(`Note with id \'${noteId}\' not found.`);
+        throw new NotFoundError(`Note with id '${noteId}' not found.`);
       }
 
       response.status(HttpStatusCode.OK).send();

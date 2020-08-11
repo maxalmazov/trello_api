@@ -10,9 +10,18 @@ interface ErrorResponse {
   httpCode: HttpStatusCode;
 }
 
-export const asyncHandler = (action: (...args) => {}) => (...args) => {
+interface AsyncHandlerArgs {
+  error: Error;
+  request: Request;
+  response: Response;
+  next: NextFunction;
+}
+
+export const asyncHandler = (action: (...args) => Promise<unknown>) => (
+  ...args
+): Promise<unknown> => {
   const actionReturn = action(...args);
-  const next = args[args.length - 1];
+  const next: NextFunction = args[args.length - 1];
 
   return Promise.resolve(actionReturn).catch(next);
 };
@@ -21,8 +30,7 @@ export const ErrorHandler = (
   error: Error,
   request: Request,
   response: Response,
-  next: NextFunction,
-) => {
+): void => {
   const createErrorResponse = (error: BaseError): ErrorResponse => ({
     success: 0,
     error: error.name,
