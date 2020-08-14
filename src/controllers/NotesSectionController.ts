@@ -7,12 +7,13 @@ import { asyncHandler } from '../lib/ErrorHandler';
 import { Request, Response } from 'express';
 import { HttpStatusCode } from '../lib/enum/HttpStatusCode';
 import { UpdateWriteOpResult } from 'mongodb';
+import NoteSectionRepository from '../repositories/NoteSectionRepository';
 
 const NotesSectionController = (app: core.Express): void => {
   app.get(
     routes.notesSection.getAll,
     asyncHandler(async (request: Request, response: Response) => {
-      const noteSections = await NotesSection.find().exec();
+      const noteSections = NoteSectionRepository.getAll();
 
       response.send(noteSections);
     }),
@@ -24,10 +25,10 @@ const NotesSectionController = (app: core.Express): void => {
       const notesSectionId = request.params.id;
 
       if (!notesSectionId) {
-        throw new BadRequestError("Param 'id' is required.");
+        throw new BadRequestError('Param \'id\' is required.');
       }
 
-      const notesSection = await NotesSection.findById(notesSectionId).exec();
+      const notesSection = await NoteSectionRepository.findById(notesSectionId);
 
       if (null === notesSection) {
         throw new NotFoundError(
@@ -61,13 +62,13 @@ const NotesSectionController = (app: core.Express): void => {
       const notesSectionId = request.params.id;
 
       if (!notesSectionId) {
-        throw new BadRequestError("Param 'id' is required.");
+        throw new BadRequestError('Param \'id\' is required.');
       }
 
-      const result: UpdateWriteOpResult['result'] = await NotesSection.updateOne(
-        { _id: notesSectionId },
+      const result: UpdateWriteOpResult['result'] = await NoteSectionRepository.updateOneById(
+        notesSectionId,
         request.body,
-      ).exec();
+      );
 
       if (!result.n) {
         throw new NotFoundError(
@@ -85,12 +86,10 @@ const NotesSectionController = (app: core.Express): void => {
       const notesSectionId = request.params.id;
 
       if (!notesSectionId) {
-        throw new BadRequestError("Param 'id' is required.");
+        throw new BadRequestError('Param \'id\' is required.');
       }
 
-      const result = await NotesSection.deleteOne({
-        _id: notesSectionId,
-      }).exec();
+      const result = await NoteSectionRepository.deleteOneById(notesSectionId);
 
       if (!result.n) {
         throw new NotFoundError(

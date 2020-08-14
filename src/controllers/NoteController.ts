@@ -61,7 +61,7 @@ const NoteController = (app: core.Express): void => {
       const noteId = request.params.id;
 
       if (!noteId) {
-        throw new BadRequestError("Param 'id' is required.");
+        throw new BadRequestError('Param \'id\' is required.');
       }
 
       // TODO: handle CastError
@@ -84,7 +84,7 @@ const NoteController = (app: core.Express): void => {
       const noteId = request.params.id;
 
       if (!noteId) {
-        throw new BadRequestError("Param 'id' is required.");
+        throw new BadRequestError('Param \'id\' is required.');
       }
 
       const result = await NoteRepository.deleteOneById(noteId);
