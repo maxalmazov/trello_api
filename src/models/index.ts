@@ -1,7 +1,7 @@
-import Note from './Note';
-import NotesSection from './NotesSection';
+import Note, { NOTE_MODEL_NAME } from './Note';
+import NotesSection, { NOTES_SECTION_MODEL_NAME } from './NotesSection';
 
 export default {
-  Note,
-  NotesSection,
+  [NOTE_MODEL_NAME]: Note,
+  [NOTES_SECTION_MODEL_NAME]: NotesSection,
 };

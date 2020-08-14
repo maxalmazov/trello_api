@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-export const NotesSectionModelName = 'NotesSection';
+export const NOTES_SECTION_MODEL_NAME = 'NotesSection';
 
 const NotesSectionColors = [
   '#dfe1e6',

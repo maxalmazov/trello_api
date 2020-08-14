@@ -1,14 +1,14 @@
 import { Schema, model } from 'mongoose';
-import { NotesSectionModelName } from './NotesSection';
+import { NOTES_SECTION_MODEL_NAME } from './NotesSection';
 
-export const NoteModelName = 'Note';
+export const NOTE_MODEL_NAME = 'Note';
 
 const NoteColors = ['#ffffff', '#ffbb37', '#ff768f', '#4d88ff', '#43dc9c'];
 
 const noteSchema = new Schema({
   sectionId: {
     type: Schema.Types.ObjectId,
-    ref: NotesSectionModelName,
+    ref: NOTES_SECTION_MODEL_NAME,
     required: [true, "'sectionID' is required"],
   },
   title: {
