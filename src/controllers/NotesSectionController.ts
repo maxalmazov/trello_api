@@ -13,7 +13,7 @@ const NotesSectionController = (app: core.Express): void => {
   app.get(
     routes.notesSection.getAll,
     asyncHandler(async (request: Request, response: Response) => {
-      const noteSections = NoteSectionRepository.getAll();
+      const noteSections = await NoteSectionRepository.getAll();
 
       response.send(noteSections);
     }),

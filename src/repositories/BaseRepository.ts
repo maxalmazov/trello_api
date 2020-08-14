@@ -17,7 +17,7 @@ class BaseRepository {
 
   public updateOneById(
     modelId: string,
-    modelData,
+    modelData: any,
     modelName: string,
   ): Promise<UpdateWriteOpResult['result']> {
     const model = Models[modelName];
